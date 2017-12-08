@@ -1,0 +1,29 @@
+Root tknk
+weight None
+Printing Child weights tknk {'weight': '41', 'children': [' ugml', ' padx', ' fwft'], 'total_weight': 41, 'children_weight': 0} 41
+ugml 251
+padx 243
+fwft 243
+tknk
+├── fwft
+│   ├── cntj
+│   ├── ktlj
+│   └── xhth
+├── padx
+│   ├── havc
+│   ├── pbga
+│   └── qoyq
+└── ugml
+    ├── ebii
+    ├── gyxo
+    └── jptl
+
+2
+{'tknk': {'weight': 41, 'total_weight': 41, 'parent': None}, 'ugml': {'weight': 68, 'total_weight': 68, 'parent': 'tknk'}, 'gyxo': {'weight': 61, 'total_weight': 61, 'parent': 'ugml'}, 'ebii': {'weight': 61, 'total_weight': 61, 'parent': 'ugml'}, 'jptl': {'weight': 61, 'total_weight': 61, 'parent': 'ugml'}, 'padx': {'weight': 45, 'total_weight': 45, 'parent': 'tknk'}, 'pbga': {'weight': 66, 'total_weight': 66, 'parent': 'padx'}, 'havc': {'weight': 66, 'total_weight': 66, 'parent': 'padx'}, 'qoyq': {'weight': 66, 'total_weight': 66, 'parent': 'padx'}, 'fwft': {'weight': 72, 'total_weight': 72, 'parent': 'tknk'}, 'ktlj': {'weight': 57, 'total_weight': 57, 'parent': 'fwft'}, 'cntj': {'weight': 57, 'total_weight': 57, 'parent': 'fwft'}, 'xhth': {'weight': 57, 'total_weight': 57, 'parent': 'fwft'}}
+c v ugml 251
+c v padx 243
+c v fwft 243
+Balanced:  False 251 243
+Adjust:  8
+Nodes ugml fwft
+{'tknk': {'weight': 41, 'total_weight': 778, 'parent': None}, 'ugml': {'weight': 68, 'total_weight': 251, 'parent': 'tknk'}, 'gyxo': {'weight': 61, 'total_weight': 61, 'parent': 'ugml'}, 'ebii': {'weight': 61, 'total_weight': 61, 'parent': 'ugml'}, 'jptl': {'weight': 61, 'total_weight': 61, 'parent': 'ugml'}, 'padx': {'weight': 45, 'total_weight': 243, 'parent': 'tknk'}, 'pbga': {'weight': 66, 'total_weight': 66, 'parent': 'padx'}, 'havc': {'weight': 66, 'total_weight': 66, 'parent': 'padx'}, 'qoyq': {'weight': 66, 'total_weight': 66, 'parent': 'padx'}, 'fwft': {'weight': 72, 'total_weight': 243, 'parent': 'tknk'}, 'ktlj': {'weight': 57, 'total_weight': 57, 'parent': 'fwft'}, 'cntj': {'weight': 57, 'total_weight': 57, 'parent': 'fwft'}, 'xhth': {'weight': 57, 'total_weight': 57, 'parent': 'fwft'}}

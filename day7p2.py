@@ -31,7 +31,7 @@ def day7():
     tree = {}
     leafNodes = []
 
-    with open('day7p1sample.txt') as f:
+    with open('day7.txt') as f:
         lines = f.read().splitlines()
     for l in lines:
         node = getNodeProperties(l)
@@ -57,62 +57,90 @@ def day7():
     print("weight",add_weights(root,tmp_nodes))
     check_weights(root,tmp_nodes)
     tree_dict = {}
-    jtree = None
+
     build_tree(tree_dict,root,tmp_nodes,None,my_tree)
     my_tree.show()
 
     #print(tree_dict)
     print(my_tree.depth())
     depth = my_tree.depth()
-    add_balance(tree_dict,my_tree,my_tree.root,False,depth)
     #print(tree_dict)
-    check_balance(tree_dict,my_tree,my_tree.root)
+    add_balance(tree_dict,my_tree,my_tree.root)
+    #print(tree_dict)
+    check_balance(tree_dict,my_tree,my_tree.root,False)
+    # print(tree_dict)
     #my_tree.show()
     #print("My Tree",tmp_nodes)
     #test()
 
+def getWeight(my_tree,currentNode):
+   print("")
 
-def check_balance(tree_dict,my_tree,currentNode):
+def check_balance(tree_dict,my_tree,currentNode,balanced):
     balanced = True
     first_val = None
     current_val = None
     first_node = None
     current_node = None
+    bad_val = 0
+    bad_node = None
     for node in my_tree.is_branch(currentNode):
         #print("Node",node,tree_dict[node]["total_weight"])
         current_val = tree_dict[node]["total_weight"]
         current_node = node
-        print("c v", node, current_val)
+        #print("c v", node, current_val)
 
         if first_val == None:
             first_val = current_val
             first_node = node
         if first_val != current_val:
             balanced = False
+            bad_val = current_val
+            bad_node = current_node
+            balanced = False
+            #print("Checking under Node: ", bad_node, tree_dict[bad_node]["weight"])
+            balanced = check_balance(tree_dict, my_tree, bad_node, False)
+            if balanced:
+                if (bad_node is not None):
+                    print("Bad Node", bad_node, tree_dict[bad_node]["weight"])
+                    print("Adjust", tree_dict[bad_node]["weight"] + (first_val - bad_val))
+    return balanced
+
+
+
+        #check_balance(tree_dict,my_tree,currentNode)
 
         #add_balance(tree_dict,my_tree,node,add,current_depth)
-    print("Balanced: ", balanced, first_val, current_val)
-    print("Adjust: ", first_val - current_val)
-    print("Nodes", first_node, current_node)
 
-def add_balance(tree_dict,my_tree,currentNode,add,current_depth):
+
+
+
+def add_balance(tree_dict,my_tree,currentNode):
     # check depth, then get nodes at each depth and add values up to parent
-    current_depth = my_tree.depth(currentNode)
-    if my_tree.depth() == current_depth: #Add values to Parent until reach root
+    #print("Node Traverse: ", currentNode)
+
+    if my_tree.get_node(currentNode).is_leaf(): #Add values to Parent until reach root
         parent = my_tree.parent(currentNode).tag
         #print("Parent", parent)
-        while(tree_dict[parent]) != None:
+        if(tree_dict[parent]) != None:
+            #print("Before Adding Leave to : ", currentNode, tree_dict[currentNode]["weight"],parent, tree_dict[parent]["total_weight"])
             tree_dict[parent]["total_weight"] = tree_dict[parent]["total_weight"] + tree_dict[currentNode]["weight"]
-            if my_tree.parent(parent) is None:
-                break
-            else:
-                parent = my_tree.parent(parent).tag
-
-        add = True
+            #print("Adding Leave to : ", currentNode, parent, tree_dict[parent]["total_weight"])
         #add value to parent
     for node in my_tree.is_branch(currentNode):
-        add_balance(tree_dict,my_tree,node,add,current_depth)
-    #Move down until children are leave nodes...
+
+        add_balance(tree_dict,my_tree,node)
+        # Weights should be done
+        if not my_tree.get_node(node).is_leaf():
+            parent = my_tree.parent(node).tag
+
+            tree_dict[parent]["total_weight"] = tree_dict[parent]["total_weight"] + tree_dict[node]["total_weight"]
+            #print("Adding Leave to : ", node, parent,tree_dict[parent]["total_weight"] )
+
+        #print("Adding Node to : ", node, parent)
+
+
+            #Move down until children are leave nodes...
     #See if children balance if so add children to node weight
     #Check next one and move up a level
 
@@ -143,10 +171,10 @@ def build_tree(tree_dict,root,tmp_nodes,parent,my_tree):
     else:
         my_tree.create_node(root,root,parent=parent,data=Weight(weight,weight))
         tree_dict[root] = {"weight":weight,"total_weight":weight,"parent":parent}
-        parent = jtree
+
 
         # Update parent weights
-    print("ROOT",root,root_node,weight)
+    #print("ROOT",root,root_node,weight)
     child_nodes = root_node['children']
     node_children_weight = 0
     for child in child_nodes:
