@@ -4,6 +4,7 @@ import operator
 def start_game():
     with open('day9.txt') as f:
         stream = f.read()
+    #stream = "<><random characters><<<<><{!>}><!!>><{o\"i!a,<{i<a>"
     process_stream(stream)
 
 class Token_Stack:
@@ -34,10 +35,14 @@ def process_stream(stream):
     token_stack = Token_Stack()
     ignore_next = False
     counter = 0
+    garbage_counter = 0
     for token in stream:
         if ignore_next:  #Ignore the next token and reset Ignore next rule
             ignore_next = False
         else:
+            if token_stack.peek() == GARBAGE_OPEN and token != ">" and token != "!":
+                garbage_counter += 1
+
             if (token == '!'):  #Ignore next
                 #print("Ignore")
                 ignore_next = True
@@ -55,7 +60,8 @@ def process_stream(stream):
                 #print("Close Garbage")
                 token_stack.pop()
         #print(token_stack.tokens)
-    print(counter)
+    print("Total Groups: ", counter)
+    print("All Garbage: ", garbage_counter)
 
 
 
