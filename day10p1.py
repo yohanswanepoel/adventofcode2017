@@ -6,18 +6,36 @@ def start_game():
     #    stream = f.read()
     #stream = "<><random characters><<<<><{!>}><!!>><{o\"i!a,<{i<a>"
     input="183,0,31,146,254,240,223,150,2,206,161,1,255,232,199,88"
-    input_list = input.split(',')
+    input_list =[]
+    for i in input:
+        input_list.append(ord(i))
+
+    input_list.append(17)
+    input_list.append(31)
+    input_list.append(73)
+    input_list.append(47)
+    input_list.append(23)
+
 
     cl = Circular_List(256)
     print("Starter")
     cl.show()
-    for i in input_list:
-        cl.reverse_elements(int(i))
 
-    print("end")
+    x = 0
+    while x < 64:
+        for i in input_list:
+            cl.reverse_elements(i)
+        x += 1
+    print("Sparse Hash")
     cl.show()
-    res = cl.get_item(0) * cl.get_item(1)
-    print("result",res)
+    hash = cl.create_dense_hash(16)
+    #res = hash[0] * hash[1]
+    print("result",hash)
+    result = ""
+    for h in hash:
+        result += format(h, '02x')
+    print(result)
+
 
 
 class Circular_List:
@@ -62,6 +80,17 @@ class Circular_List:
     def normalise_index(self,index):
         return index % (self.len)
 
+    def create_dense_hash(self,block_size):
+        dense_hash = []
+        counter = 0
+        while counter < block_size:
+            dense_hash.append(0)
+            counter2 = 0
+            while counter2 < block_size:
+                dense_hash[counter] ^= self.mylist[(block_size * counter) + counter2]
+                counter2 += 1
+            counter += 1
+        return dense_hash
 
 
 
